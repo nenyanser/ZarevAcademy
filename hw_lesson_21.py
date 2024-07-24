@@ -130,46 +130,54 @@ print('-' * 50)
 import random
 import time
 
+while True:
+    wallets = input("Введите количество кошельков: ")
+    if wallets.isdigit():
+        wallets = int(wallets)
+        break
+    else:
+        print("Ошибка, введите число")
+
+while True:
+    drops = input("Введите количество кошельков: ")
+    if drops.isdigit():
+        drops = int(drops)
+        break
+    else:
+        print("Ошибка, введите число")
+
 gas_price = 50
 
-while True:
-    wallets_amount = input("Брайан, напиши-ка скольким лохам раздадим дроп сегодня: ")
-    if wallets_amount.isdigit():
-        wallets_amount = int(wallets_amount)
-        break
+wallet_counter = 0
+display_wallets = ''
+
+while wallet_counter < wallets:
+
+    wallet_counter += 1
+
+    if random.randint(0, 1) and drops > 0:
+        print(f"Кошелек {wallet_counter} получил дроп.")
+        drops -= 1
+        display_wallets += f"{wallet_counter}, "
+
     else:
-        print("Опять унюхался пингвино? Это не число, давай еще раз.")
+        print(f"Кошелек {wallet_counter} не получил дроп.")
+        continue
 
-while True:
-    drops_amount = input("А теперь напиши сколько у нас всего дропов: ")
-    if drops_amount.isdigit():
-        drops_amount = int(drops_amount)
-        break
-    else:
-        print("Опять унюхался пингвино? Это не число, давай еще раз.")
-
-wallets_with_drop = ''
-wallet_number = 0
-
-while drops_amount > 0:
-    wallet_number += 1
-    if wallet_number > wallets_amount:
-        wallet_number = 1
-
-    if random.randint(0, 1):
-        print(f"К лоху под номером: {wallet_number} судьба была благосклонна и он получает дроп")
-        wallets_with_drop += f"{wallet_number}, "
-        while gas_price > 30:
-            print(f"Бомжи не вывозят газ, {gas_price} выше порога 30")
+    while True:
+        gas_price = random.randint(15, 50)
+        if gas_price > 30:
+            print(f"Газ {gas_price}, что выше порога в 30, ждем более низкого.")
             time.sleep(1)
-            gas_price = random.randint(15, 50)
-        print(f"Лох клеймит дроп, газ {gas_price}")
-        drops_amount -= 1
-        gas_price = 50
-    else:
-        print(f"Лох под номером: {wallet_number} в пролете")
+            continue
+        else:
+            print(f"Газ {gas_price}, клеймим дроп.")
+            break
 
-print(f"Счастливчики, которые задонатят нам по 10 центов на токен: {wallets_with_drop.strip(', ')}")
+    if drops != 0 and wallet_counter == wallets:
+        wallet_number = 0
+
+print(f"Распродажа завершена, дроп получили кошельки: {display_wallets}")
 
 
 print('-' * 50)
